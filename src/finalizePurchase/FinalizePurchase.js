@@ -118,6 +118,22 @@ export default function FinalizePurchase() {
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [event, setEvent] = useState(null);
+  const [successPayment, setSuccessPayment] = useState(true);
+
+  const [sucessLogin, setSuccessLogin] = useState(false);
+  const [errorLogin, setErrorLogin] = useState(false);
+
+  const [formPayment, setFormPayment] = useState({
+    name: "",
+    cardNumber: "",
+    expirationDate: "",
+    cvv: "",
+  });
+
+  const [formLogin, setFormLogin] = useState({
+    email: "",
+    password: "",
+  });
 
   useEffect(() => {
     if (router.query.id && router.query.amount) {
@@ -128,14 +144,43 @@ export default function FinalizePurchase() {
       });
 
       if (event) {
-        console.log(event);
-        console.log(router.query.amount);
         setEvent(event);
       }
     }
   }, [router.query.id]);
 
-  const handleClose = () => setShow(false);
+  const handleConfirm = () => {
+    if (
+      formPayment.name !== "GABRIEL S E SANTO" ||
+      formPayment.cardNumber !== "1111111111111111" ||
+      formPayment.expirationDate !== "2022-06-22" ||
+      formPayment.cvv !== "123"
+    ) {
+      setSuccessPayment(false);
+    } else {
+      setSuccessPayment(true);
+      handleShow();
+    }
+  };
+
+  const handleLogin = () => {
+    if (
+      formLogin.email !== "spontoni33@gmail.com" ||
+      formLogin.password !== "12345678"
+    ) {
+      console.log("error");
+      setSuccessLogin(false);
+      setErrorLogin(true);
+    } else {
+      setSuccessLogin(true);
+      setErrorLogin(false);
+    }
+  };
+
+  const handleClose = () => {
+    setErrorLogin(false);
+    setShow(false);
+  };
   const handleShow = () => setShow(true);
   return (
     <div className="row">
@@ -175,41 +220,79 @@ export default function FinalizePurchase() {
 
           <div className="col-md">
             <div className="form-floating">
-              <input type="text" className="form-control" />
+              <input
+                onChange={(e) => {
+                  setFormPayment({ ...formPayment, name: e.target.value });
+                }}
+                type="text"
+                className="form-control"
+              />
               <label>Nome do Titular</label>
             </div>
           </div>
           <div className="col-md">
             <div className="form-floating">
-              <input type="number" className="form-control" />
+              <input
+                onChange={(e) => {
+                  setFormPayment({
+                    ...formPayment,
+                    cardNumber: e.target.value,
+                  });
+                }}
+                type="number"
+                className="form-control"
+              />
               <label>Numero do Cartão</label>
             </div>
           </div>
           <div className="row g-2">
             <div className="col-md">
               <div className="form-floating">
-                <input type="date" className="form-control" />
+                <input
+                  onChange={(e) => {
+                    setFormPayment({
+                      ...formPayment,
+                      expirationDate: e.target.value,
+                    });
+                  }}
+                  type="date"
+                  className="form-control"
+                />
                 <label>Data de Validade</label>
               </div>
             </div>
             <div className="col-md">
               <div className="form-floating">
-                <input type="nunmber" className="form-control" />
+                <input
+                  onChange={(e) => {
+                    setFormPayment({ ...formPayment, cvv: e.target.value });
+                  }}
+                  type="nunmber"
+                  className="form-control"
+                />
                 <label>CVV</label>
               </div>
             </div>
           </div>
+          {!successPayment && (
+            <div className="col-md mt-3">
+              <div className="alert alert-danger" role="alert">
+                Algo Deu Errado com a Verificação do Seu Pagamento, Por Favor
+                Tente Novamente ou Entre em Contato com o Administrador
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="col-sm-12 mt-3">
         <div className="d-grid gap-2 col-6 mx-auto">
           <button
-            onClick={handleShow}
+            onClick={handleConfirm}
             className="btn btn-success"
             type="button"
           >
-            Fazer Login e Confirmar Compra
+            Validar
           </button>
         </div>
       </div>
@@ -239,7 +322,13 @@ export default function FinalizePurchase() {
                 Email
               </label>
               <div className="col-sm-10">
-                <input type="email" className="form-control" />
+                <input
+                  type="email"
+                  className="form-control"
+                  onChange={(e) => {
+                    setFormLogin({ ...formLogin, email: e.target.value });
+                  }}
+                />
               </div>
             </div>
             <div className="mb-3 row">
@@ -254,17 +343,32 @@ export default function FinalizePurchase() {
                   type="password"
                   className="form-control"
                   id="inputPassword"
+                  onChange={(e) => {
+                    setFormLogin({ ...formLogin, password: e.target.value });
+                  }}
                 />
               </div>
             </div>
           </div>
+
+          {sucessLogin && (
+            <div className="alert alert-success" role="alert">
+              Compra Realizada com sucesso, Verifique seu Email
+            </div>
+          )}
+
+          {!sucessLogin && errorLogin && (
+            <div className="alert alert-danger" role="alert">
+              Algo Deu errado
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Voltar
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
+          <Button variant="primary" onClick={handleLogin}>
+            Comprar
           </Button>
         </Modal.Footer>
       </Modal>
