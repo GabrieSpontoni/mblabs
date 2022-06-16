@@ -1,7 +1,10 @@
+import { useRouter } from "next/router";
+
 export default function CompaniesEvents() {
+  const router = useRouter();
   const events = [
     {
-      id: 1,
+      id: 7,
       title: "MB Labs",
       date: "January 1, 2019",
       photoUrl:
@@ -10,7 +13,7 @@ export default function CompaniesEvents() {
         "The University of California, Irvine is a public research university in Irvine, California. It is the flagship campus of the University of California, and the largest in the world. It is the oldest university in the United States, and the world's largest university by enrollment.",
     },
     {
-      id: 2,
+      id: 8,
       title: "Banco do Brasil",
       date: "January 1, 2019",
       photoUrl:
@@ -19,7 +22,7 @@ export default function CompaniesEvents() {
         "The University of California, Irvine is a public research university in Irvine, California. It is the flagship campus of the University of California, and the largest in the world. It is the oldest university in the United States, and the world's largest university by enrollment.",
     },
     {
-      id: 3,
+      id: 9,
       title: "Facebook",
       date: "January 1, 2019",
       photoUrl:
@@ -28,7 +31,7 @@ export default function CompaniesEvents() {
         "The University of California, Irvine is a public research university in Irvine, California. It is the flagship campus of the University of California, and the largest in the world. It is the oldest university in the United States, and the world's largest university by enrollment.",
     },
     {
-      id: 4,
+      id: 10,
       title: "Linkedin",
       date: "January 1, 2019",
       photoUrl:
@@ -37,7 +40,7 @@ export default function CompaniesEvents() {
         "The University of California, Irvine is a public research university in Irvine, California. It is the flagship campus of the University of California, and the largest in the world. It is the oldest university in the United States, and the world's largest university by enrollment.",
     },
     {
-      id: 5,
+      id: 11,
       title: "Instagram",
       date: "January 1, 2019",
       photoUrl:
@@ -46,7 +49,7 @@ export default function CompaniesEvents() {
         "The University of California, Irvine is a public research university in Irvine, California. It is the flagship campus of the University of California, and the largest in the world. It is the oldest university in the United States, and the world's largest university by enrollment.",
     },
     {
-      id: 6,
+      id: 12,
       title: "Plystation",
       date: "January 1, 2019",
       photoUrl:
@@ -58,7 +61,7 @@ export default function CompaniesEvents() {
   return (
     <div className="row row-cols-1 row-cols-md-3 g-4">
       {events.map((event) => (
-        <div className="col">
+        <div key={event.id} className="col">
           <div className="card">
             <img src={event.photoUrl} className="card-img-top" alt="..." />
             <div className="card-body">
@@ -67,7 +70,13 @@ export default function CompaniesEvents() {
             </div>
             <div className="card-footer">
               <small className="text-muted"> {event.date} </small>
-              <button class="btn btn-primary" type="submit">
+              <button
+                onClick={() => {
+                  router.push(`/buy-ticket?id=${event.id}`);
+                }}
+                className="btn btn-primary"
+                type="submit"
+              >
                 Comprar ingresso
               </button>
             </div>
