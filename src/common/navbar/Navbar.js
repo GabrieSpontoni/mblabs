@@ -41,7 +41,15 @@ export default function CustomNav() {
     <>
       <nav className="navbar navbar-light bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand">GS Ingressos</a>
+          <Button
+            onClick={() => {
+              router.push("/home");
+            }}
+            variant="btn btn-light"
+          >
+            GS Ingressos
+          </Button>
+          {/* <a className="navbar-brand">GS Ingressos</a> */}
           <form className="d-flex" onSubmit={handleSearch}>
             <input
               className="form-control me-2"
@@ -53,14 +61,6 @@ export default function CustomNav() {
               Buscar
             </button>
           </form>
-          <Button
-            onClick={() => {
-              router.push("/home");
-            }}
-            variant="outline-danger"
-          >
-            Home
-          </Button>
         </div>
       </nav>
 

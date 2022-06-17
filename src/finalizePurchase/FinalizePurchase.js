@@ -75,31 +75,49 @@ export default function FinalizePurchase() {
   const handleShow = () => setShow(true);
   return (
     <div className="row">
-      <div className="col-sm-6">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Resumo da Compra</h5>
-            <p className="card-text">
-              Quantidade de ingressos :{" "}
-              <span id="quantity">{router.query.amount}</span>
-              <br />
-              Preço Unitário : <span id="quantity">R$ 10,00</span>
-              <br />
-              Preço Total : <span id="quantity">R$ 100,00</span>
-            </p>
-          </div>
+      <div className="col-sm-12">
+        <div className="alert alert-primary" role="alert">
+          Para Validar o Pagamento, é necessário criar uma conta no GS
+          Ingressos, caso você não possua uma conta{" "}
+          <button
+            onClick={() => {
+              router.push("/register");
+            }}
+            className="btn btn-primary"
+            type="button"
+          >
+            Clique Aqui
+          </button>
         </div>
       </div>
       {event && (
         <div className="col-sm-6">
           <div className="card">
             <div className="card-body">
+              <h5 className="card-title">Resumo da Compra</h5>
+              <p className="card-text">
+                Quantidade de ingressos :{" "}
+                <span id="quantity">{router.query.amount}</span>
+                <br />
+                Preço Unitário :{" "}
+                <span id="quantity">R$ {event.unityPrice}</span>
+                <br />
+                Preço Total :{" "}
+                <span id="quantity">
+                  R$ {event.unityPrice * router.query.amount}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+      {event && (
+        <div className="col-sm-6">
+          <div className="card">
+            <div className="card-body">
               <h5 className="card-title">{event.title}</h5>
               <p className="card-text">{event.date}</p>
-              <p className="card-text">
-                Cidade Universitária, Av. Costa e Silva - Pioneiros, MS,
-                79070-900
-              </p>
+              <p className="card-text">{event.address}</p>
             </div>
           </div>
         </div>
@@ -188,20 +206,6 @@ export default function FinalizePurchase() {
         </div>
       </div>
 
-      <div className="col-sm-12 mt-3">
-        <div className="d-grid gap-2 col-6 mx-auto">
-          <button
-            onClick={() => {
-              router.push("/register");
-            }}
-            className="btn btn-primary"
-            type="button"
-          >
-            Criar Conta
-          </button>
-        </div>
-      </div>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>
@@ -250,7 +254,7 @@ export default function FinalizePurchase() {
 
           {!sucessLogin && errorLogin && (
             <div className="alert alert-danger" role="alert">
-              Algo Deu errado
+              Usuário não encontrado
             </div>
           )}
         </Modal.Body>

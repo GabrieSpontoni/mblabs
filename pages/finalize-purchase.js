@@ -4,6 +4,7 @@ import FinalizePurchase from "../src/finalizePurchase/FinalizePurchase";
 export default function Finalize() {
   return (
     <div>
+      <Navbar />
       <hr />
       <div
         style={{

@@ -1,13 +1,24 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 
 import styles from "./Register.module.css";
 
 export default function Register() {
   const router = useRouter();
+  const [error, setError] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("submit");
+    console.log(e.target[0].value, e.target[1].value);
+
+    if (
+      e.target[0].value !== "spontoni33@gmail.com" ||
+      e.target[1].value !== "12345678"
+    ) {
+      setError(true);
+    } else {
+      router.back();
+    }
   };
 
   return (
@@ -32,16 +43,14 @@ export default function Register() {
             />
           </div>
 
-          {/* {error && <div className="alert alert-danger">{error}</div>} */}
+          {error && (
+            <div className="alert alert-danger">
+              Erro ao criar conta, verifique seus dados e tente novamente.
+            </div>
+          )}
 
           <div className={styles.button}>
-            <button
-              onClick={() => {
-                router.push("/home");
-              }}
-              type="submit"
-              className="btn btn-primary"
-            >
+            <button type="submit" className="btn btn-primary">
               Registrar
             </button>
           </div>

@@ -43,6 +43,10 @@ export default function BuyTicket() {
                 <p className="card-text">
                   <small className="text-muted">{event.date}</small>
                 </p>
+
+                <p className="card-text">
+                  <small className="text-muted">R$ {event.unityPrice}</small>
+                </p>
                 <div className="card-text">
                   <div className="input-group mb-3">
                     <select
